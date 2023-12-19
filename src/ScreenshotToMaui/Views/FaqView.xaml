@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ScreenshotToMaui.Views.FaqView"
+    xmlns:controls="clr-namespace:ScreenshotToMaui.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <toolkit:Popup.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PopupBorderStyle" TargetType="Border">
+                <Setter Property="StrokeShape" Value="Rectangle" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="BackgroundColor" Value="Black" />
+                <Setter Property="HeightRequest" Value="500" />
+                <Setter Property="WidthRequest" Value="500" />
+            </Style>
+            
+            <Style x:Key="PopupLayoutStyle" TargetType="Layout">
+                <Setter Property="Padding" Value="12" />
+            </Style>
+
+            <Style x:Key="TitleTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="Margin" Value="0, 12" />
+            </Style>
+            
+            <Style TargetType="toolkit:Expander">
+                <Setter Property="IsExpanded" Value="True" />
+                <Setter Property="Margin" Value="0, 12" />
+            </Style>
+            
+            <Style x:Key="QuestionTextStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+            
+            <Style x:Key="AnswerTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+
+        </ResourceDictionary>
+    </toolkit:Popup.Resources>
+    <Grid>
+        <Border
+            Style="{StaticResource PopupBorderStyle}">
+            <StackLayout
+                Style="{StaticResource PopupLayoutStyle}">
+                <Label 
+                    Text="Faq"
+                    Style="{StaticResource TitleTextStyle}"/>
+                <toolkit:Expander>
+                    <toolkit:Expander.Header>
+                        <Label 
+                            Text="How does it work?"
+                            Style="{StaticResource QuestionTextStyle}"/>
+                    </toolkit:Expander.Header>
+                    <Label 
+                        Text="This app converts a screenshot to .NET MAUI XAML code. It uses GPT-4 Vision to generate the code and DALL-E 3 to generate similar-looking images."
+                        Style="{StaticResource AnswerTextStyle}"/>
+                </toolkit:Expander>
+                <toolkit:Expander>
+                    <toolkit:Expander.Header>
+                        <Label 
+                            Text="It costs money?"
+                            Style="{StaticResource QuestionTextStyle}"/>
+                    </toolkit:Expander.Header>
+                    <Label 
+                        Text="This is an Open Source app, totally free. However, it makes use of Open AI services that do have a cost."
+                        Style="{StaticResource AnswerTextStyle}"/>
+                </toolkit:Expander>
+                <toolkit:Expander>
+                    <toolkit:Expander.Header>
+                        <Label 
+                            Text="How do I get the key and the endpoint?"
+                            Style="{StaticResource QuestionTextStyle}"/>
+                    </toolkit:Expander.Header>
+                    <StackLayout>
+                        <Label 
+                            Text="To successfully make calls against OpenAI, you need to set an endpoint and a key in the Settings."
+                            Style="{StaticResource AnswerTextStyle}"/>
+                        <controls:HyperlinkLabel Text="Retrieve key and endpoint" Url="https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line%2Cpython&amp;pivots=programming-language-csharp#retrieve-key-and-endpoint" />
+                    </StackLayout>
+                </toolkit:Expander>
+            </StackLayout>
+        </Border>
+    </Grid>
+</toolkit:Popup>

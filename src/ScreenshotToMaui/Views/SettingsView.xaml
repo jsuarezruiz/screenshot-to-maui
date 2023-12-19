@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ScreenshotToMaui.Views.SettingsView"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <toolkit:Popup.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PopupBorderStyle" TargetType="Border">
+                <Setter Property="StrokeShape" Value="Rectangle" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="BackgroundColor" Value="Black" />
+                <Setter Property="HeightRequest" Value="300" />
+                <Setter Property="WidthRequest" Value="600" />
+            </Style>
+            
+            <Style x:Key="MainPopupLayoutStyle" TargetType="Layout">
+                <Setter Property="Padding" Value="12" />
+            </Style>
+
+            <Style x:Key="PopupLayoutStyle" TargetType="Layout">
+                <Setter Property="Margin" Value="0, 4" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="DarkGray" />
+                <Setter Property="PlaceholderColor" Value="White" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+            
+            <Style x:Key="SettingsButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="Margin" Value="12" />
+            </Style>
+
+        </ResourceDictionary>
+    </toolkit:Popup.Resources>
+    <Grid>
+        <Border
+            Style="{StaticResource PopupBorderStyle}">
+            <Grid
+                RowDefinitions="Auto, Auto, Auto, *"
+                Style="{StaticResource MainPopupLayoutStyle}">
+                <StackLayout
+                    Style="{StaticResource PopupLayoutStyle}">
+                    <Label 
+                        Text="Api Key"/>
+                    <Entry 
+                        Placeholder="Your Api Key"
+                        Text="{Binding ApiKey, Mode=TwoWay}"/>
+                </StackLayout>
+                <StackLayout
+                    Grid.Row="1"
+                    Style="{StaticResource PopupLayoutStyle}">
+                    <Label
+                        Text="Vision Endpoint"/>
+                    <Entry
+                        Placeholder="Your Vision Endpoint"
+                        Text="{Binding VisionEndpoint, Mode=TwoWay}"/>
+                </StackLayout>
+                <StackLayout
+                    Grid.Row="2"
+                    Style="{StaticResource PopupLayoutStyle}">
+                    <Label 
+                        Text="DALL·E 3 Endpoint (Optional)"/>
+                    <Entry 
+                        Placeholder="Your DALL·E 3 Endpoint"
+                        Text="{Binding Dalle3Endpoint, Mode=TwoWay}"/>
+                </StackLayout>
+                <Button 
+                    Grid.Row="3"
+                    Text="Ok"
+                    Style="{StaticResource SettingsButtonStyle}"
+                    Clicked="OnCloseClicked"
+                    Command="{Binding SaveCommand}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</toolkit:Popup>

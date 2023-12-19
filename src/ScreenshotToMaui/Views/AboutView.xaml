@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ScreenshotToMaui.Views.AboutView"
+    xmlns:controls="clr-namespace:ScreenshotToMaui.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <toolkit:Popup.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PopupBorderStyle" TargetType="Border">
+                <Setter Property="StrokeShape" Value="Rectangle" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="BackgroundColor" Value="Black" />
+                <Setter Property="HeightRequest" Value="400" />
+                <Setter Property="WidthRequest" Value="400" />
+            </Style>
+            
+            <Style x:Key="MainPopupLayoutStyle" TargetType="Layout">
+                <Setter Property="Padding" Value="12" />
+            </Style>
+            
+            <Style x:Key="PopupLayoutStyle" TargetType="Layout">
+                <Setter Property="Margin" Value="0, 12" />
+            </Style>
+            
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+            
+            <Style x:Key="DescriptionTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="Medium" />
+            </Style>
+            
+        </ResourceDictionary>
+    </toolkit:Popup.Resources>
+    <VerticalStackLayout>
+        <Border
+            Style="{StaticResource PopupBorderStyle}">
+            <Grid
+                RowDefinitions="Auto, Auto, *"
+                Style="{StaticResource MainPopupLayoutStyle}">
+                <Label 
+                    Text="Convert a screenshot to .NET MAUI code"
+                    Style="{StaticResource DescriptionTextStyle}"/>
+                <StackLayout
+                    Grid.Row="1"
+                    Style="{StaticResource PopupLayoutStyle}">
+                    <Label 
+                        Text="This project uses the following libraries:"/>
+                    <controls:HyperlinkLabel Text="CommunityToolkit.Maui" Url="https://www.nuget.org/packages/CommunityToolkit.Maui" />
+                    <controls:HyperlinkLabel Text="Newtonsoft.Json" Url="https://www.nuget.org/packages/Newtonsoft.Json" />
+                </StackLayout>
+                <StackLayout
+                    Grid.Row="2"
+                    Style="{StaticResource PopupLayoutStyle}">
+                    <Label 
+                        Text="This project is inspired by:"/>
+                    <controls:HyperlinkLabel Text="emilwallner/screenshot-to-code" Url="https://github.com/emilwallner/screenshot-to-code" />
+                    <controls:HyperlinkLabel Text="abi/screenshot-to-code" Url="https://github.com/abi/screenshot-to-code" />
+                    <controls:HyperlinkLabel Text="davidmigloz/pixels2flutter" Url="https://github.com/davidmigloz/pixels2flutter" />
+                </StackLayout>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</toolkit:Popup>

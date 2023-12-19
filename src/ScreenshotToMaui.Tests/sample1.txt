@@ -1,0 +1,123 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantShop.MainPage"
+             BackgroundColor="#F0F4F8">
+
+    <ContentPage.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="CornerRadius" Value="20"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontFamily" Value="OpenSans"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+
+        <Style TargetType="SearchBar">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+
+        <Style TargetType="Image">
+            <Setter Property="HeightRequest" Value="100"/>
+            <Setter Property="WidthRequest" Value="100"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10">
+            <Label Text="Discover"
+                   FontSize="30"
+                   FontFamily="Arial"
+                   Margin="10"
+                   TextColor="Black"/>
+
+            <SearchBar Placeholder="Search anything here"/>
+
+            <CollectionView ItemsLayout="HorizontalList" Margin="0,10,0,10">
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type View}">
+                        <Frame BackgroundColor="#D5ECC2">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Green%20Plant%20Icon" Aspect="AspectFill"/>
+                                <Label Text="Green Plant" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <Frame BackgroundColor="#ECD4E5">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Flower%20Icon" Aspect="AspectFill"/>
+                                <Label Text="Flower" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <Frame BackgroundColor="#F9F5EB">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Indoor%20Plant%20Icon" Aspect="AspectFill"/>
+                                <Label Text="Indoor Plant" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <Frame BackgroundColor="#F3EAC2">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Plant%20Icon" Aspect="AspectFill"/>
+                                <Label Text="Instruments" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+            </CollectionView>
+
+            <CarouselView ItemsLayout="HorizontalList" HeightRequest="200" IndicatorView="indicatorView">
+                <CarouselView.ItemsSource>
+                    <x:Array Type="{x:Type ContentView}">
+                        <ContentView>
+                            <Frame BackgroundColor="#C4DEF6">
+                                <Image Source="https://placehold.co/100x100?description=Discount%20Banner%20Image" Aspect="AspectFill"/>
+                            </Frame>
+                        </ContentView>
+                        <ContentView>
+                            <Frame BackgroundColor="#D3EBCD">
+                                <Image Source="https://placehold.co/100x100?description=Discount%20Banner%20Image" Aspect="AspectFill"/>
+                            </Frame>
+                        </ContentView>
+                    </x:Array>
+                </CarouselView.ItemsSource>
+            </CarouselView>
+
+            <CollectionView ItemsLayout="VerticalList" Margin="0,10,0,10">
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type View}">
+                        <Frame BackgroundColor="#D5ECC2">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Aloe%20Vera%20Plant" Aspect="AspectFill"/>
+                                <Label Text="Aloe Vera" HorizontalTextAlignment="Center"/>
+                                <Label Text="$60" HorizontalTextAlignment="Center" TextColor="Gray"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <Frame BackgroundColor="#ECD4E5">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Succulent%20Plant" Aspect="AspectFill"/>
+                                <Label Text="Succulent" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <Frame BackgroundColor="#F9F5EB">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Plant" Aspect="AspectFill"/>
+                                <Label Text="Cactus" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <Frame BackgroundColor="#F3EAC2">
+                            <VerticalStackLayout>
+                                <Image Source="https://placehold.co/100x100?description=Plant" Aspect="AspectFill"/>
+                                <Label Text="Bonsai" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+            </CollectionView>
+
+            <IndicatorView x:Name="indicatorView" IndicatorColor="LightGray" SelectedIndicatorColor="Black" IndicatorSize="10"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

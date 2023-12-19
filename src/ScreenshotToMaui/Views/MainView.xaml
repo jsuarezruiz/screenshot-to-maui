@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ScreenshotToMaui.Views.MainView"
+    xmlns:converters="clr-namespace:ScreenshotToMaui.Converters"
+    xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+    Title="Convert a screenshot to .NET MAUI code">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            
+            <Style x:Key="GenerateBorderStyle" TargetType="Border">
+                <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+                <Setter Property="Stroke" Value="Gray" />
+                <Setter Property="StrokeThickness" Value="4" />
+                <Setter Property="StrokeDashOffset" Value="1" />
+                <Setter Property="StrokeDashArray" Value="1, 2" />
+                <Setter Property="MinimumWidthRequest" Value="200" />
+                <Setter Property="MaximumWidthRequest" Value="600" />
+                <Setter Property="Margin" Value="12" />
+            </Style>
+
+            <Style x:Key="GenerateLayoutStyle" TargetType="Layout">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="GenerateButtonStyle" TargetType="Button">
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="WidthRequest" Value="120" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="120, 0" />
+            </Style>
+
+            <Style x:Key="GenerateTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+            
+            <Style x:Key="PreviewImageStyle" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="StateTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Red" />
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="EditorBorderStyle" TargetType="Border">
+                <Setter Property="StrokeShape" Value="Rectangle" />
+                <Setter Property="Stroke" Value="Gray" />
+                <Setter Property="StrokeThickness" Value="4" />
+                <Setter Property="Margin" Value="12" />
+            </Style>
+
+            <Style x:Key="EditorButtonLayoutStyle" TargetType="Layout">
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="Margin" Value="12" />
+            </Style>
+            
+            <Style x:Key="EditorButtonStyle" TargetType="Button">
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="Margin" Value="6, 0" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            IconImageSource="settings.png"
+            Text="Settings"
+            Command="{Binding SettingsCommand}"/>
+        <ToolbarItem
+            IconImageSource="faq.png"
+            Text="Faq"
+            Command="{Binding FaqCommand}"/>
+        <ToolbarItem 
+            IconImageSource="info.png"
+            Text="About"
+            Command="{Binding AboutCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid
+            x:Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <!-- GENERATE -->
+            <Border 
+                x:Name="GenerateBorder"
+                Style="{StaticResource GenerateBorderStyle}">
+                <Grid>
+                    <StackLayout
+                        IsVisible="{Binding HasScreenshot, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource GenerateLayoutStyle}">
+                        <Button 
+                            Text="Select image"
+                            Command="{Binding LoadImageCommand}"
+                            Style="{StaticResource GenerateButtonStyle}"/>
+                        <!-- TODO: IMPLEMENT DROP GESTURE HERE -->
+                        <Label
+                            Text="Or drop it here"
+                            IsVisible="False"
+                            Style="{StaticResource GenerateTextStyle}"/>
+                    </StackLayout>
+                    <Image 
+                        IsVisible="{Binding HasScreenshot}"
+                        Source="{Binding Screenshot}"
+                        Style="{StaticResource PreviewImageStyle}">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding ResetCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label 
+                        Text="{Binding State}"
+                        IsVisible="{Binding IsGenerating}"
+                        Style="{StaticResource StateTextStyle}"/>
+                    <skia:SKLottieView
+                        IsVisible="{Binding IsGenerating}"
+                        RepeatCount="-1"
+                        RepeatMode="Reverse"
+                        Source="scan.json"  />
+                </Grid>
+            </Border>
+            <Grid 
+                Grid.Column="1"
+                RowDefinitions="*, Auto"
+                IsVisible="{Binding HasCode}">
+                <Border 
+                    Style="{StaticResource EditorBorderStyle}">
+                    <Editor
+                        x:Name="LiveEditor"   
+                        Text="{Binding LiveXaml}"/>
+                </Border>
+                <HorizontalStackLayout
+                    Grid.Row="1"
+                    Style="{StaticResource EditorButtonLayoutStyle}">
+                    <Button
+                        Text="Copy"
+                        Command="{Binding CopyCommand}"
+                        Style="{StaticResource EditorButtonStyle}"/>
+                    <!-- TODO: IMPLEMENT SAVE ACTION -->
+                    <Button 
+                        Text="Save"
+                        IsEnabled="False"
+                        Style="{StaticResource EditorButtonStyle}"/>
+                </HorizontalStackLayout>
+            </Grid>
+            <ContentView
+                x:Name="LivePreview"
+                Grid.Column="2"
+                IsVisible="{Binding HasCode}"
+                Content="{Binding Preview}" />
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>
