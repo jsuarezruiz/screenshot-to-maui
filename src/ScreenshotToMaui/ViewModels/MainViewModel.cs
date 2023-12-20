@@ -23,6 +23,8 @@ namespace ScreenshotToMaui.ViewModels
         string _liveXaml;
         View _preview;
 
+        Stopwatch _stopwatch;
+
         public MainViewModel(AlertService alertService, OpenAIVisionService openAIVisionService, OpenAIDalle3Service openAIDalle3Service, IPopupService popupService)
         {
             _alertService = alertService;
@@ -33,6 +35,8 @@ namespace ScreenshotToMaui.ViewModels
             HasScreenshot = false;
             IsGenerating = false;
             HasCode = false;
+
+            _stopwatch = new Stopwatch();
         }
 
         public ImageSource Screenshot
@@ -90,7 +94,7 @@ namespace ScreenshotToMaui.ViewModels
             get { return _liveXaml; }
             set
             {
-                _liveXaml = value; 
+                _liveXaml = value;
                 OnPropertyChanged();
                 PreviewXamlAsync(_liveXaml).FireAndForget();
             }
@@ -106,9 +110,9 @@ namespace ScreenshotToMaui.ViewModels
             }
         }
 
-        public ICommand LoadImageCommand => new Command(async () => await LoadImageAsync()); 
+        public ICommand LoadImageCommand => new Command(async () => await LoadImageAsync());
         public ICommand ReloadCommand => new Command(async () => await ReloadAsync());
-        public ICommand CopyCommand => new Command(async () => await CopyToClipboardAsync()); 
+        public ICommand CopyCommand => new Command(async () => await CopyToClipboardAsync());
         public ICommand ResetCommand => new Command(Reset);
         public ICommand SettingsCommand => new Command(OpenSettings);
         public ICommand FaqCommand => new Command(OpenFaq);
@@ -126,7 +130,7 @@ namespace ScreenshotToMaui.ViewModels
 
                 State = "Opening the screenshot";
                 ImageSource imageSource = ImageSource.FromStream(() => result.OpenReadAsync().Result);
-                Screenshot = imageSource; 
+                Screenshot = imageSource;
                 HasScreenshot = true;
 
                 await GenerateCodeAsync(result.FullPath);
@@ -137,6 +141,8 @@ namespace ScreenshotToMaui.ViewModels
         {
             try
             {
+                _stopwatch.Start();
+
                 NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 
                 if (accessType == NetworkAccess.Internet)
@@ -174,12 +180,16 @@ namespace ScreenshotToMaui.ViewModels
                     await _alertService.ShowAlertAsync("No internet connection", "An internet connection is necessary to generate the code.");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                HasCode = false;
+                await _alertService.ShowAlertAsync("An error has occurred generating the code", ex.Message);
+                Reset();
             }
             finally
             {
+                _stopwatch.Stop();
+                TimeSpan stopwatchElapsed = _stopwatch.Elapsed;
+                Debug.WriteLine($"Code generated in {stopwatchElapsed.TotalSeconds} seconds");
                 IsGenerating = false;
             }
         }
@@ -209,7 +219,7 @@ namespace ScreenshotToMaui.ViewModels
 
             return await Task.FromResult(string.Empty);
         }
-     
+
         async Task PreviewXamlAsync(string xaml)
         {
             var contentPage = new ContentPage();
@@ -225,7 +235,7 @@ namespace ScreenshotToMaui.ViewModels
             }
             catch (Exception exception)
             {
-                // Error 
+                // XAML Error 
                 Debug.WriteLine(exception.Message);
                 var xamlException = Live.GetXamlException(exception);
                 await Live.UpdatePageFromXamlAsync(contentPage, xamlException);
